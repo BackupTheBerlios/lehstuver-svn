@@ -16,7 +16,7 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- SET SESSION AUTHORIZATION 'markus';
+SET SESSION AUTHORIZATION 'markus';
 
 SET search_path = public, pg_catalog;
 
@@ -29,10 +29,7 @@ CREATE TABLE tbl_lehrer (
     lehrerid serial NOT NULL,
     vorname text,
     nachname text,
-    gebdatum date,
-    status_rv character varying(5),
-    status_lbf character varying(5),
-    status_bsa character varying(5)
+    gebdatum date
 );
 
 
@@ -101,7 +98,21 @@ CREATE TABLE tbl_lehrerentlastungsstunden (
 
 
 --
--- TOC entry 13 (OID 26208)
+-- TOC entry 11 (OID 26236)
+-- Name: tbl_lehrerstatus; Type: TABLE; Schema: public; Owner: markus
+--
+
+CREATE TABLE tbl_lehrerstatus (
+    lehrerid integer NOT NULL,
+    habljahr character varying(6) NOT NULL,
+    "status_bsa " character varying(5),
+    status_lbf character varying(5),
+    status_rv character varying(5)
+);
+
+
+--
+-- TOC entry 14 (OID 26208)
 -- Name: PK_Altersteilzeit; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -110,7 +121,7 @@ ALTER TABLE ONLY tbl_altersteilzeit
 
 
 --
--- TOC entry 14 (OID 26210)
+-- TOC entry 15 (OID 26210)
 -- Name: PK_Entlastungsstunden; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -119,7 +130,7 @@ ALTER TABLE ONLY tbl_entlastungsstunden
 
 
 --
--- TOC entry 12 (OID 26212)
+-- TOC entry 13 (OID 26212)
 -- Name: PK_Fachbereiche; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -128,7 +139,7 @@ ALTER TABLE ONLY tbl_fachbereiche
 
 
 --
--- TOC entry 11 (OID 26214)
+-- TOC entry 12 (OID 26214)
 -- Name: PK_Lehrer; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -137,7 +148,7 @@ ALTER TABLE ONLY tbl_lehrer
 
 
 --
--- TOC entry 16 (OID 26216)
+-- TOC entry 17 (OID 26216)
 -- Name: PK_LehrerEntlastungsstunden; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -146,7 +157,7 @@ ALTER TABLE ONLY tbl_lehrerentlastungsstunden
 
 
 --
--- TOC entry 15 (OID 26226)
+-- TOC entry 16 (OID 26226)
 -- Name: PK_LehrerFachbereich; Type: CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -155,7 +166,16 @@ ALTER TABLE ONLY tbl_lehrerfachbereich
 
 
 --
--- TOC entry 19 (OID 26218)
+-- TOC entry 18 (OID 26238)
+-- Name: PK_Lehrerstatus; Type: CONSTRAINT; Schema: public; Owner: markus
+--
+
+ALTER TABLE ONLY tbl_lehrerstatus
+    ADD CONSTRAINT "PK_Lehrerstatus" PRIMARY KEY (lehrerid, habljahr);
+
+
+--
+-- TOC entry 21 (OID 26218)
 -- Name: FK_Lehrerentlastungsstunden_Entlastungsstunden; Type: FK CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -164,7 +184,7 @@ ALTER TABLE ONLY tbl_lehrerentlastungsstunden
 
 
 --
--- TOC entry 20 (OID 26222)
+-- TOC entry 22 (OID 26222)
 -- Name: FK_Lehrerentlastungsstunden_Lehrer; Type: FK CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -173,7 +193,7 @@ ALTER TABLE ONLY tbl_lehrerentlastungsstunden
 
 
 --
--- TOC entry 17 (OID 26228)
+-- TOC entry 19 (OID 26228)
 -- Name: FK_Lehrerfachbereich_Lehrer; Type: FK CONSTRAINT; Schema: public; Owner: markus
 --
 
@@ -182,12 +202,21 @@ ALTER TABLE ONLY tbl_lehrerfachbereich
 
 
 --
--- TOC entry 18 (OID 26232)
+-- TOC entry 20 (OID 26232)
 -- Name: FK_Lehrerfachbereich_Fachbereich; Type: FK CONSTRAINT; Schema: public; Owner: markus
 --
 
 ALTER TABLE ONLY tbl_lehrerfachbereich
     ADD CONSTRAINT "FK_Lehrerfachbereich_Fachbereich" FOREIGN KEY (fachbereichid) REFERENCES tbl_fachbereiche(fachbereichid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 23 (OID 26240)
+-- Name: FK_Lehrerstatus_Lehrer; Type: FK CONSTRAINT; Schema: public; Owner: markus
+--
+
+ALTER TABLE ONLY tbl_lehrerstatus
+    ADD CONSTRAINT "FK_Lehrerstatus_Lehrer" FOREIGN KEY (lehrerid) REFERENCES tbl_lehrer(lehrerid) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 SET SESSION AUTHORIZATION 'postgres';
