@@ -94,7 +94,7 @@ public class frmMain extends JFrame{
 	 */    
 	private JTable getJTable() {
 		if (jTable == null) {
-			try {
+			try{
 				String rowData[][] = {
 					      { "Japan", "245", "12", "12", "11", "10" },
 						  { "USA", "240", "12", "12", "11", "10" },
@@ -109,7 +109,12 @@ public class frmMain extends JFrame{
 					    String  columnNames[] = {
 					      "Lehrer", "Fachbereich1", "Fachbereich2", "Fachbereich3", "Fachbereich4", "Summe"
 					    }; 
-				jTable = new JTable(rowData, columnNames);
+				//jTable = new JTable(rowData, columnNames);
+					    
+					    //Füllen des Jtables mit Beispieldaten aus derDB
+					    Database db = new Database();
+					    jTable = db.testGet();
+					    db.close();
 				// jTable.addColumn();
 				
 			}
