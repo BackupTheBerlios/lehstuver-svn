@@ -102,8 +102,10 @@ public class MainFrame extends JFrame
         centerPane.add(scrollpane,BorderLayout.CENTER);
         
         TableColumn thirdcol = table.getColumnModel().getColumn(2);
+        JTextField textfield = new JTextField();
         thirdcol.setMinWidth(50);
         thirdcol.setMaxWidth(50);
+        thirdcol.setCellEditor(new DefaultCellEditor(textfield));
         JPanel rightPane=new JPanel(new BorderLayout());
         
         rightPane.add(new JButton("Löschen"),BorderLayout.NORTH);
