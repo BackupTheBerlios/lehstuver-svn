@@ -8,7 +8,6 @@
 /**
  * @author markusschlichting
  *
- * 
  */
 public class ClassMain {
 
