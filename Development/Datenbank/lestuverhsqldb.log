@@ -1,0 +1,15 @@
+CREATE USER SA PASSWORD "" ADMIN
+/*C1*/CONNECT USER SA
+CREATE TABLE "tbl_Lehrer" ("LehererID" IDENTITY, "Nachnname" varchar(150), "Vorname" varchar(150), "GebDatum" date)
+CREATE TABLE "tbl_Fachbereiche" ("FachbereichID" IDENTITY, "Name" varchar(150))
+CREATE TABLE "tbl_Altersteilzeit"\u000a(\u000a"AltersteilzeitID" IDENTITY,\u000a"Bezeichung" varchar(150),\u000a"Alter" double,\u000a"Wochenstunden" double,\u000a"Stichtag" date\u000a)
+CREATE TABLE "tbl_Entlastungsstunden"\u000a(\u000a"EntlastungsstundenID" IDENTITY,\u000a"Bezeichung" varchar(150),\u000a"Grund" varchar(500),\u000a"Wochenstunden" double,\u000a"Gesetzlich" boolean\u000a)
+INSERT INTO "tbl_Lehrer" VALUES(0,'test','test',NULL)
+INSERT INTO "tbl_Lehrer" VALUES(1,'test2',NULL,NULL)
+CREATE TABLE "tbl_Lehrerstatus"\u000a(\u000a"LehrerID" INTEGER,\u000a"Halbjahr" varchar(6),\u000a"Status_RV" varchar(2),\u000a"Status_LBF" varchar(2),\u000a"Status_BSA" varchar(2),\u000aPRIMARY KEY("LehrerID","Halbjahr"))
+DROP TABLE "tbl_Lehrerstatus"\u000a
+alter table "tbl_Lehrer" ALTER COLUMN "LehererID" RENAME TO "LehrerID"
+\u000aCREATE TABLE "tbl_Lehrerstatus"\u000a(\u000a"LehrerID" INTEGER,\u000a"Halbjahr" varchar(6),\u000a"Status_RV" varchar(2),\u000a"Status_LBF" varchar(2),\u000a"Status_BSA" varchar(2),\u000aPRIMARY KEY("LehrerID","Halbjahr"),\u000aFOREIGN KEY ("LehrerID") references "tbl_Lehrer"("LehrerID")\u000a)
+\u000aCREATE TABLE "tbl_Lehrerfachbereich"\u000a(\u000a"LehrerID" INTEGER,\u000a"FachbereichID" INTEGER,\u000a"Halbjahr" varchar(6),\u000a"Wochenstunden" double,\u000aPRIMARY KEY("LehrerID","FachbereichID","Halbjahr"),\u000aFOREIGN KEY ("LehrerID") references "tbl_Lehrer"("LehrerID"),\u000aFOREIGN KEY ("FachbereichID") references "tbl_Fachbereiche"("FachbereichID")\u000a)
+\u000aCREATE TABLE "tbl_LehrerEntlastungsstunden"\u000a(\u000a"LehrerID" INTEGER,\u000a"EntlastungsstundenID" INTEGER,\u000a"Halbjahr" varchar(6),\u000aPRIMARY KEY("LehrerID","EntlastungsstundenID","Halbjahr"),\u000aFOREIGN KEY ("LehrerID") references "tbl_Lehrer"("LehrerID"),\u000aFOREIGN KEY ("EntlastungsstundenID") references "tbl_Entlastungsstunden"("EntlastungsstundenID")\u000a)
+DISCONNECT
