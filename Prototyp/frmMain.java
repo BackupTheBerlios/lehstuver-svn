@@ -142,7 +142,8 @@ public class frmMain extends JFrame{
 	 * @return javax.swing.JMenuItem	
 	 */    
 	private JMenuItem getJMenuItem(String str) {
-		if (jMenuItem == null) {
+		//if (jMenuItem == null) 
+		{
 			try {
 				jMenuItem = new JMenuItem(str);
 			}
